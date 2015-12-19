@@ -1,1 +1,1 @@
-Just chilling
+Training my skills. Simple directory for small company
