@@ -1,0 +1,48 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Результаты поиска по запросу "{{ query }}":</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-bordered table-hover">
+          <thead>
+            <tr>
+                <th>id</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Отдел</th>
+                <th>Должность</th>
+                <th>Тел.</th>
+                <th>Местн.</th>
+                <th>Моб.</th>
+                <th>E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+                {% for item in results %}
+                    <tr>
+                    <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.name }} </td>
+                        <td>{{ item.fname }}</td>
+                        <td>{{ item.sname }}</td>
+                        <td>{{ item.org }}</td>
+                        <td>{{ item.dolzh }}</td>
+                        <td>{{ item.tel }}</td>
+                        <td>{{ item.tel_loc }}</td>
+                        <td>{{ item.tel_mob }}</td>
+                        <td>{% if item.email %}
+                                {% for email in item.email.split(',') %}
+                                <a href="mailto:{{ email }}">{{ email }}</a><br>
+                                {% endfor %}</td>
+                            {% else %}
+                                ---</td>
+                            {% endif %}
+                    </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
