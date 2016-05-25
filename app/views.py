@@ -48,7 +48,7 @@ def create():
         flash('Успешно добавлено!')
         return redirect(url_for('search'))
 
-    return render_template('create1.html', title='Создать заявку', form=form)
+    return render_template('create.html', title='Создать заявку', form=form)
 
 
 @app.route('/rates')

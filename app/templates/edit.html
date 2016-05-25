@@ -3,7 +3,7 @@
 
 {% from 'macros.html' import render_form %}
 {% block content %}
-<div class="span12">
-    {{ render_form(form, action_url='/edit/' + id, action_text='Добавить', class_='form', btn_class='btn btn-success') }}
+<div class="col-lg-8">
+    {{ render_form(form, action_url='/edit/' + id, action_text='Сохранить', class_='form', btn_class='btn btn-primary') }}
 </div>
 {% endblock %}
