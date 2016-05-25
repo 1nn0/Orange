@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         {% if title %}
-            <title>{{ title }} - Справочник</title>
+            <title>{{ title }} - Orange</title>
         {% else %}
-            <title>Справочник</title>
+            <title>Orange</title>
         {% endif %}
     </head>
     <body>
@@ -20,10 +20,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">Справочник</a>
+          <a class="brand" href="/">OrangePlus</a>
             <ul class="nav navbar-nav">
               <li>
                   <a class="navbar-link" href="{{ url_for('index') }}">Главная</a>
+              </li>
+              <li>
+                  <a class="navbar-link" href="{{ url_for('rates') }}">Котировки</a>
+              </li>
+              <li>
+                  <a class="navbar-link" href="{{ url_for('create') }}">Добавить</a>
               </li>
             </ul>
           <div class="nav-collapse collapse">
@@ -34,11 +40,20 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="span12">
-          {% block content %}{% endblock %}
-        </div>
-      </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
     </div>
     </body>
 </html>

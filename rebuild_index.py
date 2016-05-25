@@ -51,7 +51,7 @@ def rebuild_index(model):
 
 
 if __name__ == "__main__":
-    model_list = [models.Sprav]
+    model_list = [models.Rates]
 
     for model in model_list:
         rebuild_index(model)

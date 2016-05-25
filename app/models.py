@@ -26,21 +26,19 @@ class Operations(db.Model):
     timestamp = db.Column(db.TIMESTAMP)
 
 
-class Sprav(db.Model):
-    __tablename__ = 'tb1'
-    __searchable__ = ['dolzh', 'name', 'fname', 'tel_loc', 'kab']
+class Rates(db.Model):
+    __tablename__ = 'rates'
+    __searchable__ = ['date', 'client', 'rate', 'origin', 'destination', 'type', 'terms', 'manager', 'comments']
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    dolzh = db.Column(db.String(100))
-    org = db.Column(db.String(100))
-    name = db.Column(db.String(100))
-    fname = db.Column(db.String(100))
-    sname = db.Column(db.String(100))
-    str = db.Column(db.String(100))
-    kor = db.Column(db.String(100))
-    kab = db.Column(db.String(100))
-    tel = db.Column(db.String(100))
-    tel_loc = db.Column(db.String(100))
-    tel_mob = db.Column(db.String(100))
-    email = db.Column(db.String(120))
+    date = db.Column(db.String(100))
+    client = db.Column(db.String(100))
+    rate = db.Column(db.String(100))
+    origin = db.Column(db.String(100))
+    destination = db.Column(db.String(100))
+    capacity = db.Column(db.String(100))
+    type = db.Column(db.String(100))
+    terms = db.Column(db.String(500))
+    manager = db.Column(db.String(100))
+    comments = db.Column(db.String(500))
 
-whooshalchemy.whoosh_index(app, Sprav)
+whooshalchemy.whoosh_index(app, Rates)

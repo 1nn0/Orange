@@ -1,0 +1,30 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% from 'macros.html' import render_form %}
+{% block content %}
+<div class="row">
+    <form class="form-vertical" action="/create" method="post" name="create">
+        {{form.hidden_tag()}}
+        <div class="control-group{% if form.errors.post %} error{% endif %}">
+            <label class="control-label" for="client">Клиент</label>
+            <div class="controls">
+                {{ form.client(size = 40, maxlength = 100) }}
+                <label class="control-label" for="origin">Откуда</label>
+                {{ form.origin(size = 40, maxlength = 100) }}
+                {{ form.destination(size = 40, maxlength = 100) }}
+                {{ form.capacity(size = 40, maxlength = 100) }}
+                {{ form.type(size = 40, maxlength = 100) }}
+                {{ form.comments(size = 40, maxlength = 100) }}
+                {% for error in form.errors.post %}
+                    <span class="help-inline">[{{error}}]</span><br>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Добавить">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

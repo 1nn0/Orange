@@ -1,0 +1,9 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% from 'macros.html' import render_form %}
+{% block content %}
+<div class="span12">
+    {{ render_form(form, action_url='/edit/' + id, action_text='Добавить', class_='form', btn_class='btn btn-success') }}
+</div>
+{% endblock %}
