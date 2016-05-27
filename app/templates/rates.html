@@ -3,6 +3,7 @@
 
 {% block content %}
   <h1>Все котировки:</h1>
+    <div class="container" style="width: 100%; margin: 0; padding: 0">
     <div class="container-fluid">
         <table class="table table-condensed table-striped table-sm table-bordered table-hover">
           <thead>
@@ -42,5 +43,6 @@
         {% else %}<< Новые{% endif %} |
         {% if results.has_next %}<a href="{{ url_for('rates', page = results.next_num) }}"> Старые>> </a>
         {% else %}Старые >>{% endif %}
+    </div>
     </div>
 {% endblock %}

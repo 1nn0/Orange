@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a5dfad3a-eec0-4bf6-b62c-c38f31815737" name="Orange" url="http://93.190.228.30:5000">
+        <fileTransfer host="93.190.228.30" port="22" rootFolder="/home/orange/flask" accessType="SFTP" password="df9bdfc5dfd8dfcbdfc4dfcddfcfdf8b" username="orange">
+          <advancedOptions>
+            <advancedOptions controlEncoding="utf-8" dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
