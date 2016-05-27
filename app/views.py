@@ -17,19 +17,24 @@ def before_request():
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title="Заявки", content=models.Rates.query.order_by(models.Rates.id.desc()).all())
+    return render_template('index.html', title="Заявки",
+                           content=models.Rates.query.order_by(models.Rates.id.desc()).all())
 
 
 @app.route('/search', methods=('GET', 'POST'))
 def search():
     if not g.search_form.validate_on_submit():
-        return redirect(url_for('search_results', query='*'))
-    return redirect(url_for('search_results', query=g.search_form.search.data))
+        return redirect(url_for('search_results', query='all', page=1))
+    return redirect(url_for('search_results', query=g.search_form.search.data, page=1))
 
 
-@app.route('/search/<query>')
-def search_results(query):
-    results = models.Rates.query.whoosh_search(query, MAX_SEARCH_RESULTS).order_by(models.Rates.id.desc())
+@app.route('/search/<query>/<int:page>')
+def search_results(query, page=1):
+    if query == 'all':
+        results = models.Rates.query.order_by(models.Rates.id.desc()).paginate(page, ITEMS_PER_PAGE, False)
+    else:
+        results = models.Rates.query.whoosh_search(query, MAX_SEARCH_RESULTS).order_by(models.Rates.id.desc()).paginate(
+                page, ITEMS_PER_PAGE, False)
     return render_template('search.html',
                            query=query,
                            results=results)
@@ -46,18 +51,18 @@ def create():
         db.session.add(request)
         db.session.commit()
         flash('Успешно добавлено!')
-        return redirect(url_for('search'))
+        return redirect(url_for('rates'))
 
     return render_template('create.html', title='Создать заявку', form=form)
 
 
 @app.route('/rates')
 @app.route('/rates/<int:page>', methods=['GET', 'POST'])
-def rates(page = 1):
-    #results = models.Rates.query.whoosh_search('*').all()
-    content=models.Rates.query.order_by(models.Rates.id.desc()).paginate(page, ITEMS_PER_PAGE, False)
+def rates(page=1):
+    # results = models.Rates.query.whoosh_search('*').all()
+    content = models.Rates.query.order_by(models.Rates.id.desc()).paginate(page, ITEMS_PER_PAGE, False)
 
-    return render_template('rates.html', title = 'Котировки', results=content)
+    return render_template('rates.html', title='Котировки', results=content)
 
 
 @app.route('/edit/<item_id>', methods=('GET', 'POST'))

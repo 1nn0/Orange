@@ -1,5 +1,6 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
+{% from 'macros.html' import render_pagination %}
 
 {% block content %}
   <h1>Все котировки:</h1>
@@ -39,10 +40,7 @@
                 {% endfor %}
           </tbody>
         </table>
-        {% if results.has_prev %}<a href="{{ url_for('rates', page = results.prev_num) }}"> << Новые </a>
-        {% else %}<< Новые{% endif %} |
-        {% if results.has_next %}<a href="{{ url_for('rates', page = results.next_num) }}"> Старые>> </a>
-        {% else %}Старые >>{% endif %}
+        {{ render_pagination(results, 'rates') }}
     </div>
     </div>
 {% endblock %}

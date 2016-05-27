@@ -8,11 +8,14 @@ ROLE_ADMIN = 1
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True,)
+    id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100), unique=True)
+    name = db.Column(db.String(50))
+    sname = db.Column(db.String(50))
     role = db.Column(db.Integer, default=ROLE_USER)
     last_login = db.Column(db.DATETIME)
+    rates_taken = db.relationship('Rates', backref='logist', lazy='dynamic')
 
     def __repr__(self):
         return '<User %r>' % (self.login)
@@ -40,5 +43,7 @@ class Rates(db.Model):
     terms = db.Column(db.String(500))
     manager = db.Column(db.String(100))
     comments = db.Column(db.String(500))
+    is_new = db.Column(db.Boolean)
+    taken_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 whooshalchemy.whoosh_index(app, Rates)
