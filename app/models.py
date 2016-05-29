@@ -1,24 +1,41 @@
+import datetime
+
 import flask.ext.whooshalchemy as whooshalchemy
+from flask.ext.security import SQLAlchemyUserDatastore, UserMixin, RoleMixin
 
 from app import app, db
 
-ROLE_USER = 0
-ROLE_ADMIN = 1
+roles_users = db.Table('roles_users',
+                       db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100), unique=True)
-    name = db.Column(db.String(50))
-    sname = db.Column(db.String(50))
-    role = db.Column(db.Integer, default=ROLE_USER)
-    last_login = db.Column(db.DATETIME)
-    rates_taken = db.relationship('Rates', backref='logist', lazy='dynamic')
+    email = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
+    first_name = db.Column(db.String(255))
+    last_name = db.Column(db.String(255))
+    active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime())
+    last_login_at = db.Column(db.DateTime())
+    current_login_at = db.Column(db.DateTime())
+    last_login_ip = db.Column(db.String(45))
+    current_login_ip = db.Column(db.String(45))
+    login_count = db.Column(db.Integer)
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
 
     def __repr__(self):
-        return '<User %r>' % (self.login)
+        return '<User %r>' % (self.first_name)
+
+
+class Role(db.Model, RoleMixin):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
 
 
 class Operations(db.Model):
@@ -30,10 +47,10 @@ class Operations(db.Model):
 
 
 class Rates(db.Model):
-    __tablename__ = 'rates'
+    __tablename__ = 'rates_new'
     __searchable__ = ['date', 'client', 'rate', 'origin', 'destination', 'type', 'terms', 'manager', 'comments']
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    date = db.Column(db.String(100))
+    date = db.Column(db.DateTime, default=datetime.datetime.now())
     client = db.Column(db.String(100))
     rate = db.Column(db.String(100))
     origin = db.Column(db.String(100))
@@ -43,7 +60,10 @@ class Rates(db.Model):
     terms = db.Column(db.String(500))
     manager = db.Column(db.String(100))
     comments = db.Column(db.String(500))
+    created_by = db.Column(db.Integer)
     is_new = db.Column(db.Boolean)
-    taken_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    taken_by = db.Column(db.Integer)
 
+
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 whooshalchemy.whoosh_index(app, Rates)

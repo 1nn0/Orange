@@ -3,44 +3,51 @@
 {% from 'macros.html' import render_pagination %}
 
 {% block content %}
-  <h1>Все котировки:</h1>
+    <h1>Все котировки:</h1>
     <div class="container" style="width: 100%; margin: 0; padding: 0">
-    <div class="container-fluid">
-        <table class="table table-condensed table-striped table-sm table-bordered table-hover">
-          <thead>
-            <tr>
-                <th>id</th>
-                <th>Дата подачи</th>
-                <th>Клиент</th>
-                <th>Ставка клиенту, руб.</th>
-                <th>Откуда</th>
-                <th>Куда</th>
-                <th>Гр-ть, т</th>
-                <th>Тип ТС</th>
-                <th>Код АТИ, Ставка перевозчика, форма оплаты</th>
-                <th>Логист</th>
-                <th>Примечания</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="container-fluid">
+            <table class="table table-condensed table-striped table-sm table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Дата подачи</th>
+                    <th>Клиент</th>
+                    <th>Ставка клиенту, руб.</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                    <th>Гр-ть, т</th>
+                    <th>Тип ТС</th>
+                    <th>Код АТИ, Ставка перевозчика, форма оплаты</th>
+                    <th>Логист</th>
+                    <th>Примечания</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for item in results.items %}
                     <tr>
-                    <th scope="row"><a href="/edit/{{ item.id }}">{{ item.id }}</a></th>
-                        <td>{{ item.date }} </td>
+                        <th scope="row"><a href="/edit/{{ item.id }}">{{ item.id }}</a></th>
+                        <td>{{ item.date }}</td>
                         <td>{{ item.client }}</td>
-                        <td>{{ item.rate }}</td>
+                        <td>{{ item.rate }}<span class="glyphicon glyphicon-rub" aria-hidden="true"></span></td>
                         <td>{{ item.origin }}</td>
                         <td>{{ item.destination }}</td>
                         <td>{{ item.capacity }}</td>
-                        <td>{{ item.type }}</td>
+                        <td>
+                            <button type="button" class="btn btn-default" data-toggle="popover" data-placement="top"
+                                    data-container="body" title={{ item.type }} data-content="В рот мне ноги! Какой
+                                    ахуительный поповер!
+                            " >
+                            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                            </button>
+                        </td>
                         <td>{{ item.terms }}</td>
                         <td>{{ item.manager }}</td>
                         <td>{{ item.comments }}</td>
                     </tr>
                 {% endfor %}
-          </tbody>
-        </table>
-        {{ render_pagination(results, 'rates') }}
-    </div>
+                </tbody>
+            </table>
+            {{ render_pagination(results, 'rates') }}
+        </div>
     </div>
 {% endblock %}

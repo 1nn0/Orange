@@ -6,7 +6,6 @@ from flask_admin.contrib.sqla import ModelView
 
 from app import app, db, models, forms
 from config import MAX_SEARCH_RESULTS, ITEMS_PER_PAGE
-from .forms import CreateForm, EditForm
 
 
 @app.before_request
@@ -34,7 +33,7 @@ def search_results(query, page=1):
         results = models.Rates.query.order_by(models.Rates.id.desc()).paginate(page, ITEMS_PER_PAGE, False)
     else:
         results = models.Rates.query.whoosh_search(query, MAX_SEARCH_RESULTS).order_by(models.Rates.id.desc()).paginate(
-                page, ITEMS_PER_PAGE, False)
+            page, ITEMS_PER_PAGE, False)
     return render_template('search.html',
                            query=query,
                            results=results)
@@ -42,12 +41,13 @@ def search_results(query, page=1):
 
 @app.route('/create', methods=('GET', 'POST'))
 def create():
-    form = CreateForm()
+    form = forms.CreateForm()
 
     if form.validate_on_submit():
-        request = models.Rates(date=str(datetime.datetime.now().strftime("%d/%m/%Y %H:%M")), client=form.client.data,
+        request = models.Rates(date=datetime.datetime.now(), client=form.client.data,
                                origin=form.origin.data, destination=form.destination.data,
-                               capacity=form.capacity.data, type=form.type.data, comments=form.comments.data)
+                               capacity=form.capacity.data, type=form.type.data, comments=form.comments.data,
+                               is_new=True)
         db.session.add(request)
         db.session.commit()
         flash('Успешно добавлено!')
@@ -68,7 +68,7 @@ def rates(page=1):
 @app.route('/edit/<item_id>', methods=('GET', 'POST'))
 def edit(item_id):
     item = models.Rates.query.get(item_id)
-    form = EditForm()
+    form = forms.EditForm()
 
     if form.validate_on_submit():
         item.rate = form.rate.data
