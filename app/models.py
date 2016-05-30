@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255))
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
-    active = db.Column(db.Boolean())
+    active = db.Column(db.Boolean)
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
@@ -26,9 +26,6 @@ class User(db.Model, UserMixin):
     login_count = db.Column(db.Integer)
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
-
-    def __repr__(self):
-        return '<User %r>' % (self.first_name)
 
 
 class Role(db.Model, RoleMixin):
@@ -47,7 +44,7 @@ class Operations(db.Model):
 
 
 class Rates(db.Model):
-    __tablename__ = 'rates_new'
+    __tablename__ = 'rates'
     __searchable__ = ['date', 'client', 'rate', 'origin', 'destination', 'type', 'terms', 'manager', 'comments']
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date = db.Column(db.DateTime, default=datetime.datetime.now())
