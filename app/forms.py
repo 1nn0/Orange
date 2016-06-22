@@ -1,6 +1,6 @@
-from flask.ext.wtf import Form
-from wtforms import StringField, TextAreaField, SelectField
-from wtforms.validators import DataRequired
+from flask_wtf import Form
+from wtforms import StringField, TextAreaField, SelectField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, Email, Length
 
 
 class SearchForm(Form):
@@ -15,14 +15,14 @@ class CreateForm(Form):
     destination = StringField('Куда', validators=[DataRequired()])
     capacity = StringField('Грузоподъемность', validators=[DataRequired()])
     type = SelectField('Тип ТС',
-                       choices=[('Борт', 'Борт'), ('Тент', 'Тент'), ('Конт.', 'Контейнер'), ('Фургон', 'Фургон'),
-                                ('Ц-М-Т.', 'Цельнометалл.'), ('Реф.', 'Рефрижератор'), ('Площ.', 'Площадка'),
-                                ('Шал.', 'Шаланда'), ('Трал', 'Трал'),
-                                ('Автовышка', 'Автовышка'), ('К.площ.', 'Контейнерная площадка'), ('Кран', 'Кран'),
-                                ('Лесовоз', 'Лесовоз'),
-                                ('Трубовоз', 'Трубовоз'), ('Манипулятор', 'Манипулятор'), ('Мега', 'Мега'),
-                                ('Погрузчик', 'Погрузчик'),
-                                ('Такелаж', 'Такелаж')])
+                       choices=[('БОРТ', 'Борт'), ('ТЕНТ', 'Тент'), ('КОНТ', 'Контейнер'), ('ФУРГ', 'Фургон'),
+                                ('ЦЕЛН', 'Цельнометалл.'), ('РЕФР', 'Рефрижератор'), ('ПЛЩД', 'Площадка'),
+                                ('ШАЛА', 'Шаланда'), ('ТРАЛ', 'Трал'),
+                                ('ВЫШК', 'Автовышка'), ('КПЛЩ', 'Контейнерная площадка'), ('КРАН', 'Кран'),
+                                ('ЛЕСВ', 'Лесовоз'), ('ВЗДХ', 'Вездеход'),
+                                ('ТРУБ', 'Трубовоз'), ('МАНП', 'Манипулятор'), ('МЕГА', 'Мега'),
+                                ('ПОГР', 'Погрузчик'),
+                                ('ТАКЛ', 'Такелаж')])
     comments = TextAreaField('Примечания', validators=[DataRequired()])
 
 
@@ -31,3 +31,16 @@ class EditForm(CreateForm):
     terms = TextAreaField('Код АТИ и т.д.', validators=[DataRequired()])
     manager = StringField('Логист', validators=[DataRequired()])
     comments = TextAreaField('Примечания', validators=[DataRequired()])
+
+
+class CreateUserForm(Form):
+    first_name = StringField('Имя')
+    last_name = StringField('Фамилия')
+    email = StringField('Логин (email)', validators=[DataRequired(), Email(message='Некорректный E-mail')])
+    password = PasswordField('Пароль', validators=[DataRequired(), Length(8, 20, 'От 8 до 20 символов')])
+    role = SelectField('Роль')
+
+
+class EditUserForm(CreateUserForm):
+    active = BooleanField('Активен?')
+    password = PasswordField('Пароль')

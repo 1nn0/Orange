@@ -1,7 +1,7 @@
 import datetime
 
-import flask.ext.whooshalchemy as whooshalchemy
-from flask.ext.security import SQLAlchemyUserDatastore, UserMixin, RoleMixin
+import flask_whooshalchemy as whooshalchemy
+from flask_security import SQLAlchemyUserDatastore, UserMixin, RoleMixin, Security
 
 from app import app, db
 
@@ -63,4 +63,5 @@ class Rates(db.Model):
 
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
 whooshalchemy.whoosh_index(app, Rates)

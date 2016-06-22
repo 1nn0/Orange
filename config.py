@@ -1,7 +1,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-WTF_CSRF_ENABLED = True
+WTF_CSRF_ENABLED = False
+WTF_CSRF_CHECK_DEFAULT = False
 SECRET_KEY = 'fuckmybrain'
 
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://techgrp_flaskdev:l6MUcdMt@clarus.timeweb.ru/techgrp_flaskdev'

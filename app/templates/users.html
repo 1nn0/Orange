@@ -1,0 +1,41 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% from 'macros.html' import render_pagination %}
+
+{% block content %}
+    <div class="container">
+        <h1>Пользователи:</h1>
+        <div class="container-fluid">
+            <table class="table table-condensed table-striped table-sm table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Роль</th>
+                    <th>Активен?</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in users.items %}
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.first_name }}</td>
+                        <td>{{ item.last_name }}</td>
+                        <td>{% for role in item.roles %}
+                            {{ role.description }}
+                        {% endfor %} </td>
+
+                        <td>{% if item.active ==1 %}
+                            <span class="glyphicon glyphicon-ok-circle" style="color: green"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-off" style="color: red"></span>
+                        {% endif %}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ render_pagination(users, 'rates') }}
+        </div>
+    </div>
+{% endblock %}

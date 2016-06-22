@@ -34,9 +34,10 @@
                         <td>{{ item.capacity }}</td>
                         <td>
                             <button type="button" class="btn btn-default" data-toggle="popover" data-placement="top"
-                                    data-container="body" title="{{ item.type }}" data-content="В рот мне ноги! Какой
-                                    ахуительный поповер!">
-                            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                                    data-container="body" title="{{ item.type }}"
+                                    data-content="Здесь могло быть дополнительное описание типа ТС или ваша реклама">
+                                {{ item.type }}
+                                <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                             </button>
                         </td>
                         <td>{{ item.terms }}</td>
